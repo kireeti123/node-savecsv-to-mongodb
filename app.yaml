@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: node-savecsv-to-mongodb-app
+    labels:
+        app: node-savecsv-to-mongodb-app
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: node-savecsv-to-mongodb-app
+    template:
+        metadata:
+            labels:
+                app: node-savecsv-to-mongodb-app
+        spec:
+            containers:
+                - name: node-savecsv-to-mongodb-app
+                  image: kireeti123/node-savecsv-to-mongodb-app:1.0
+                  imagePullPolicy: Always
+                  env:
+                      - name: Connection
+                        valueFrom:
+                            configMapKeyRef:
+                                name: db-config
+                                key: Connection
+                      - name: Database
+                        valueFrom:
+                            configMapKeyRef:
+                                name: db-config
+                                key: Database
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: db-config
+data:
+    Database: demo
+    Connection: mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/?replicaSet=rs0
+---
+# notes to create image.
+# kubectl delete deploy node-savecsv-to-mongodb-app
+# docker build -f Dockerfile . -t node-savecsv-to-mongodb-app:1.0 --no-cache
+# docker image tag node-savecsv-to-mongodb-app:1.0 kireeti123/node-savecsv-to-mongodb-app:1.0
+# docker image push kireeti123/node-savecsv-to-mongodb-app:1.0
+# kubectl apply -f node.yaml
