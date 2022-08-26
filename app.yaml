@@ -43,4 +43,4 @@ data:
 # docker build -f Dockerfile . -t node-savecsv-to-mongodb-app:1.0 --no-cache
 # docker image tag node-savecsv-to-mongodb-app:1.0 kireeti123/node-savecsv-to-mongodb-app:1.0
 # docker image push kireeti123/node-savecsv-to-mongodb-app:1.0
-# kubectl apply -f node.yaml
+# kubectl apply -f app.yaml
