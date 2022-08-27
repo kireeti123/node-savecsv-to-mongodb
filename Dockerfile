@@ -32,3 +32,4 @@ RUN set -x \
 	&& rm -rf /var/lib/apt/lists/*
 
 CMD ["tini", "--", "npm", "start"]
+#ENTRYPOINT ["tini" "--" "/start.sh"]
